@@ -1,0 +1,1 @@
+MODE=perf MASSTREE=0 MYSQL=0 USE_MALLOC_MODE=0 make -j newdbtest

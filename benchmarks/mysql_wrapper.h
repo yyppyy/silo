@@ -2,8 +2,7 @@
 #define _MYSQL_WRAPPER_H_
 
 #include <string>
-#include <mysql/mysql.h>
-
+#include </usr/local/mysql/include/mysql.h>
 #include "abstract_db.h"
 #include "../macros.h"
 

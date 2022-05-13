@@ -36,5 +36,8 @@ library: liblz4.so
 liblz4.so: lz4.o xxhash.o
 	$(CC) -shared -Wl,-soname,liblz4.so -o liblz4.so lz4.o xxhash.o
 
+liblz4.a: lz4.o xxhash.o
+	ar rcs $@ $^
+
 clean:
 	rm -f core *.o *.so lz4c$(EXT) lz4cs$(EXT) lz4c32$(EXT) fuzzer$(EXT) fullbench$(EXT)

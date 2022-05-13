@@ -2,7 +2,7 @@
 #define _BDB_WRAPPER_H_
 
 #include <string>
-#include <db_cxx.h>
+#include </usr/local/berkeleydb/5_1_29/include/db_cxx.h>
 
 #include "abstract_db.h"
 #include "../macros.h"

@@ -64,7 +64,7 @@ else
 	$(error invalid mode)
 endif
 
-CXXFLAGS := -g -Wall -Werror -std=c++0x
+CXXFLAGS := -g -Wall -std=c++0x
 CXXFLAGS += -MD -Ithird-party/lz4 -DCONFIG_H=\"$(CONFIG_H)\"
 ifeq ($(DEBUG_S),1)
         CXXFLAGS += -fno-omit-frame-pointer -DDEBUG
@@ -79,9 +79,10 @@ ifeq ($(EVENT_COUNTERS_S),1)
 endif
 
 TOP     := $(shell echo $${PWD-`pwd`})
-LDFLAGS := -lpthread -lnuma -lrt
+LDFLAGS := -lnuma -lrt
 
-LZ4LDFLAGS := -Lthird-party/lz4 -llz4 -Wl,-rpath,$(TOP)/third-party/lz4
+# LZ4LDFLAGS := -Lthird-party/lz4 -llz4 -Wl,-rpath,$(TOP)/third-party/lz4
+LZ4LDFLAGS := $(TOP)/third-party/lz4/liblz4.a
 
 ifeq ($(USE_MALLOC_MODE_S),1)
         CXXFLAGS+=-DUSE_JEMALLOC
@@ -196,8 +197,8 @@ $(O)/benchmarks/masstree/kvtest: $(O)/benchmarks/masstree/kvtest.o $(OBJFILES) $
 .PHONY: newdbtest
 newdbtest: $(O)/new-benchmarks/dbtest
 
-$(O)/new-benchmarks/dbtest: $(O)/new-benchmarks/dbtest.o $(OBJFILES) $(NEWBENCH_OBJFILES) third-party/lz4/liblz4.so
-	$(CXX) -o $(O)/new-benchmarks/dbtest $^ $(LDFLAGS) $(LZ4LDFLAGS)
+$(O)/new-benchmarks/dbtest: $(O)/new-benchmarks/dbtest.o $(OBJFILES) $(NEWBENCH_OBJFILES) third-party/lz4/liblz4.a
+	$(CXX) -o $(O)/new-benchmarks/dbtest $^ $(LDFLAGS) $(LZ4LDFLAGS) -static -pthread -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
 
 DEPFILES := $(wildcard $(O)/*.d $(O)/*/*.d $(O)/*/*/*.d)
 ifneq ($(DEPFILES),)
